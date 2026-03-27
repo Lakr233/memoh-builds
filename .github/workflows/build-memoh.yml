@@ -98,7 +98,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/${{ env.IMAGE_OWNER }}/memoh-${{ matrix.image }}:dev
+            ghcr.io/${{ env.IMAGE_OWNER }}/memoh-${{ matrix.image }}:main
             ghcr.io/${{ env.IMAGE_OWNER }}/memoh-${{ matrix.image }}:sha-${{ needs.resolve.outputs.short_sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}

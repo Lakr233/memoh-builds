@@ -14,7 +14,7 @@ What this repo does:
 - Polls upstream `memohai/Memoh` `main` every 15 minutes
 - Skips work if the current upstream commit was already built
 - Builds `linux/amd64` and `linux/arm64`
-- Pushes floating `:dev` tags
+- Pushes floating `:main` tags
 - Pushes immutable `:sha-<shortsha>` tags
 - Collects exact pulled digests as workflow artifacts
 
@@ -27,7 +27,7 @@ gh workflow run build-memoh.yml --repo Lakr233/memoh-builds
 Example pulls:
 
 ```bash
-docker pull ghcr.io/lakr233/memoh-server:dev
+docker pull ghcr.io/lakr233/memoh-server:main
 docker pull ghcr.io/lakr233/memoh-server:sha-abcdef1
 docker pull ghcr.io/lakr233/memoh-server@sha256:...
 ```
