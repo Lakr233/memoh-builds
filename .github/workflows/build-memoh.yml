@@ -48,11 +48,26 @@ jobs:
           short_sha="${upstream_sha:0:7}"
           echo "upstream_sha=${upstream_sha}" >> "$GITHUB_OUTPUT"
           echo "short_sha=${short_sha}" >> "$GITHUB_OUTPUT"
-          if docker buildx imagetools inspect "ghcr.io/${IMAGE_OWNER}/memoh-server:sha-${short_sha}" >/dev/null 2>&1; then
-            echo "should_build=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_build=true" >> "$GITHUB_OUTPUT"
-          fi
+          should_build=false
+          for image in server web browser sparse; do
+            sha_ref="ghcr.io/${IMAGE_OWNER}/memoh-${image}:sha-${short_sha}"
+            main_ref="ghcr.io/${IMAGE_OWNER}/memoh-${image}:main"
+            if ! docker buildx imagetools inspect "${sha_ref}" >/dev/null 2>&1; then
+              should_build=true
+              break
+            fi
+            if ! docker buildx imagetools inspect "${main_ref}" >/dev/null 2>&1; then
+              should_build=true
+              break
+            fi
+            sha_raw="$(docker buildx imagetools inspect --raw "${sha_ref}" | jq -cS .)"
+            main_raw="$(docker buildx imagetools inspect --raw "${main_ref}" | jq -cS .)"
+            if [ "${sha_raw}" != "${main_raw}" ]; then
+              should_build=true
+              break
+            fi
+          done
+          echo "should_build=${should_build}" >> "$GITHUB_OUTPUT"
 
   build:
     runs-on: ubuntu-latest
