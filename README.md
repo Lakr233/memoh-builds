@@ -4,10 +4,10 @@ Build and publish fresh multi-arch Memoh images from `memohai/Memoh` `main` to G
 
 Published images:
 
-- `ghcr.io/Lakr233/memoh-server`
-- `ghcr.io/Lakr233/memoh-web`
-- `ghcr.io/Lakr233/memoh-browser`
-- `ghcr.io/Lakr233/memoh-sparse`
+- `ghcr.io/lakr233/memoh-server`
+- `ghcr.io/lakr233/memoh-web`
+- `ghcr.io/lakr233/memoh-browser`
+- `ghcr.io/lakr233/memoh-sparse`
 
 What this repo does:
 
@@ -27,9 +27,9 @@ gh workflow run build-memoh.yml --repo Lakr233/memoh-builds
 Example pulls:
 
 ```bash
-docker pull ghcr.io/Lakr233/memoh-server:dev
-docker pull ghcr.io/Lakr233/memoh-server:sha-abcdef1
-docker pull ghcr.io/Lakr233/memoh-server@sha256:...
+docker pull ghcr.io/lakr233/memoh-server:dev
+docker pull ghcr.io/lakr233/memoh-server:sha-abcdef1
+docker pull ghcr.io/lakr233/memoh-server@sha256:...
 ```
 
 Suggested server update flow:

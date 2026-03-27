@@ -16,6 +16,7 @@ permissions:
   packages: write
 
 env:
+  IMAGE_OWNER: lakr233
   UPSTREAM_REPO: memohai/Memoh
   UPSTREAM_BRANCH: main
 
@@ -47,7 +48,7 @@ jobs:
           short_sha="${upstream_sha:0:7}"
           echo "upstream_sha=${upstream_sha}" >> "$GITHUB_OUTPUT"
           echo "short_sha=${short_sha}" >> "$GITHUB_OUTPUT"
-          if docker buildx imagetools inspect "ghcr.io/${GITHUB_REPOSITORY_OWNER}/memoh-server:sha-${short_sha}" >/dev/null 2>&1; then
+          if docker buildx imagetools inspect "ghcr.io/${IMAGE_OWNER}/memoh-server:sha-${short_sha}" >/dev/null 2>&1; then
             echo "should_build=false" >> "$GITHUB_OUTPUT"
           else
             echo "should_build=true" >> "$GITHUB_OUTPUT"
@@ -97,8 +98,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/memoh-${{ matrix.image }}:dev
-            ghcr.io/${{ github.repository_owner }}/memoh-${{ matrix.image }}:sha-${{ needs.resolve.outputs.short_sha }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/memoh-${{ matrix.image }}:dev
+            ghcr.io/${{ env.IMAGE_OWNER }}/memoh-${{ matrix.image }}:sha-${{ needs.resolve.outputs.short_sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.revision=${{ needs.resolve.outputs.upstream_sha }}
@@ -129,7 +130,7 @@ jobs:
 
       - name: Collect digests
         run: |
-          ./scripts/collect_digests.sh "${GITHUB_REPOSITORY_OWNER}" "${{ needs.resolve.outputs.short_sha }}" digests
+          ./scripts/collect_digests.sh "${IMAGE_OWNER}" "${{ needs.resolve.outputs.short_sha }}" digests
           cat digests/digests.json >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload digest artifact

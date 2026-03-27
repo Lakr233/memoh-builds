@@ -8,6 +8,7 @@ out_dir="${3:-digests}"
 
 mkdir -p "${out_dir}"
 
+owner="${owner,,}"
 images=(server web browser sparse)
 
 for image in "${images[@]}"; do
